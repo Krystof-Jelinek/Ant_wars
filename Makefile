@@ -1,5 +1,5 @@
-all: CTile.o main.o CMap.o CNest.o CAnt.o CExplodingAnt.o CFlyingAnt.o CCoordinates.o CRoad.o
-	g++ -Wall -pedantic -g main.o CTile.o CNest.o CMap.o CAnt.o CExplodingAnt.o CFlyingAnt.o CCoordinates.o CRoad.o -o a.out
+all: CTile.o main.o CMap.o CNest.o CAnt.o CExplodingAnt.o CFlyingAnt.o CCoordinates.o CRoad.o CGame.o
+	g++ -Wall -pedantic -g main.o CTile.o CNest.o CMap.o CAnt.o CExplodingAnt.o CFlyingAnt.o CCoordinates.o CRoad.o CGame.o -o a.out
 
 main.o: main.cpp
 	g++ -Wall -pedantic -g -c main.cpp
@@ -26,7 +26,10 @@ CCoordinates.o: CCoordinates.cpp CCoordinates.h
 	g++ -Wall -pedantic -g -c CCoordinates.cpp
 
 CRoad.o: CRoad.cpp CRoad.h
-	g++ -Wall -pedantic -g -c CRoad.cpp	
+	g++ -Wall -pedantic -g -c CRoad.cpp
+
+CGame.o: CGame.cpp CGame.h
+	g++ -Wall -pedantic -g -c CGame.cpp		
 
 clear:
 	rm *.o

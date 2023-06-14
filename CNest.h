@@ -18,18 +18,16 @@ class CNest{
     
     //basic stats of the nest
     int m_health = 1500;
-    //int m_produc_speed = 5;
+    int m_produc_speed = 5;
     
     //basic values for the produced ant, these will change with buffs
-    //int m_ant_health = 40;
+    int m_ant_health = 40;
     int m_ant_dmg = 40;
     int m_ant_speed = 2;
 
     public:
 
     //tmp v publicu
-    int m_produc_speed = 5;
-    int m_ant_health = 40;
 
     char m_color = 'Y';
     int m_num_ants = 0;

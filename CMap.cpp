@@ -319,7 +319,11 @@ void CMap::stop_attack(CNest * coward, CNest * chad){
 }
 
 void CMap::select_next_nest(){
+    if(m_selected_nest == nullptr){
+        m_selected_nest = &(*(all_nests.begin()));
+    }
     this->clear_nest_selection(m_selected_nest);
+
     for(auto itr = all_nests.begin(); itr != all_nests.end();itr++){
         if((&(*itr)) == m_selected_nest){
             itr++;

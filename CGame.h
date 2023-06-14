@@ -14,6 +14,7 @@ class CGame{
     vector<CPlayer*> all_players;
 
     CMap map;
+    public:
 
     CGame(){
         current_tick = 0;
@@ -24,6 +25,8 @@ class CGame{
     void start_game();
 
     void next_tick();
+
+    CNest * select_nest();
 
     bool check_for_win();
 
