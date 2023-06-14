@@ -1,0 +1,13 @@
+.vscode/
+CAnt.o
+CCoordinates.o
+CExplodingAnt.o
+CFlyingAnt.o
+CMap.o
+CNest.o
+CRoad.o
+CTile.o
+a.out
+build/
+main.o
+todo.txt
