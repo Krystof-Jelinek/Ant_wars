@@ -46,38 +46,59 @@ bool CGame::check_for_win(){
     return true;
 }
 
+void CGame::take_input(){
+    string input;
+    getline(cin,input,'\n');
+    if(input == ""){
+        next_tick();
+        return;
+    }
+    if(input == "n"){
+        map.select_next_nest();
+        map.printmap();
+        return;
+    }
+    if(input == "a"){
+        cout << "Where you wanna sent ants ?" << endl;
+        CNest * attacker = map.m_selected_nest;
+        CNest * victim = select_nest();
+        if(attacker == victim){
+            cout << "You cant send ants to yourself!" << endl;
+            return; 
+        }
+        map.attack(attacker,victim);
+        return;
+    }
+    //for stopping an attack on nest
+    if(input == "j"){
+        if(map.m_selected_nest->m_attacking_paths.empty()){
+            cout << "You cant stop sending ants when there is no sending happening" << endl;
+            return;
+        }
+
+        CNest * coward = map.m_selected_nest;
+        CNest * chad = select_nest();
+
+        if(coward == chad){
+            cout << "You cant do this!" << endl;
+            return; 
+        }
+
+        map.stop_attack(coward,chad);
+
+        return;
+    
+    }
+}
+
+
 
 
 void CGame::start_game(){
     while(1){
-
  
-        char c = getchar();
-        if(c == 'q'){
-            break;
-        }
-        if(c == 'n'){
-            map.select_next_nest();
-            map.printmap();
-            continue;
-        }
+        take_input();
 
-        if(c == 'u'){
-            cout << "Where you wanna sent ants ?" << endl;
-
-            CNest * attacker = map.m_selected_nest;
-            CNest * victim = select_nest();
-
-            if(attacker == victim){
-                cout << "You cant send ants to yourself!" << endl;
-                return; 
-            }
-
-            map.attack(attacker,victim);
-
-        }
-
-        next_tick();
         if(check_for_win()){
             next_tick();
             map.printmap();
