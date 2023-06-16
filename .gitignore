@@ -8,6 +8,7 @@ CNest.o
 CRoad.o
 CTile.o
 CGame.o
+CInterface.o
 a.out
 build/
 main.o

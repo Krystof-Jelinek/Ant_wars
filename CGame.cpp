@@ -20,13 +20,23 @@ CNest * CGame::select_nest(){
     while(true){
         map.printmap();
         cout << "Are you sure you want to select this nest ?" << endl;
-        char c = getchar();
-        if(c == 'n'){
+        cout << "y - write \"y\" to confirm" << endl;
+        cout << "n - write \"n\" to select next nest" << endl;
+        cout << "c - write \"c\" to cancel" << endl;
+        string input;
+        getline(cin,input,'\n');
+        if(input == "n"){
             map.select_next_nest();
         }
-        if(c == 'y'){
+        if(input == "y"){
+            map.clear_nest_selection(map.m_selected_nest);
             return map.m_selected_nest;
         }
+        if(input == "c"){
+            map.reset_selection();
+            return map.m_selected_nest;
+        }
+
     }
 }
 
@@ -49,54 +59,127 @@ bool CGame::check_for_win(){
 void CGame::take_input(){
     string input;
     getline(cin,input,'\n');
+
+    if(map.m_selected_nest == nullptr){
+        if(input == ""){
+            next_tick();
+            return;
+        }
+
+        if(input == "n"){
+            map.select_next_nest();
+            map.printmap();
+            return;
+        }
+
+        else{
+            map.printmap();
+            cout << "Invalid input" << endl;
+            return;
+        }
+    }
+
     if(input == ""){
         next_tick();
         return;
     }
+
+    if(input == "c"){
+        map.reset_selection();
+        map.printmap();
+        return;
+    }
+
     if(input == "n"){
         map.select_next_nest();
         map.printmap();
         return;
     }
+
     if(input == "a"){
         cout << "Where you wanna sent ants ?" << endl;
         CNest * attacker = map.m_selected_nest;
         CNest * victim = select_nest();
+        
+        // the selection was canceled by user 
+        if(victim == nullptr){
+            map.printmap();
+            return;
+        }
+
         if(attacker == victim){
+            map.reset_selection();
+            map.printmap();
             cout << "You cant send ants to yourself!" << endl;
             return; 
         }
         map.attack(attacker,victim);
+        map.reset_selection();
+        map.printmap();
         return;
     }
+
     //for stopping an attack on nest
     if(input == "j"){
         if(map.m_selected_nest->m_attacking_paths.empty()){
+            map.printmap();
             cout << "You cant stop sending ants when there is no sending happening" << endl;
             return;
         }
 
         CNest * coward = map.m_selected_nest;
         CNest * chad = select_nest();
+        
+        // the selection was canceled by user
+        if(chad == nullptr){
+            map.printmap();
+            return;
+        }
 
         if(coward == chad){
+            map.reset_selection();
+            map.printmap();
             cout << "You cant do this!" << endl;
             return; 
         }
 
         map.stop_attack(coward,chad);
-
+        map.reset_selection();
+        map.printmap();
         return;
     
     }
+
+    else{
+        cout << "Invalid Input!" << endl;
+    }
+}
+
+void CGame::show_options(){
+    if(map.m_selected_nest == nullptr){
+        cout << "\\n - press enter for playing next turn" << endl;
+        cout << "n - write \"n\" to start selecting nests" << endl;
+    }
+
+    else{
+        cout << "a - write \"a\" to send ants from this nest" << endl;
+        cout << "j - write \"j\" to stop sending ants from this nest" << endl;
+        cout << "c - write \"c\" to stop nest selection mode" << endl;
+        cout << "n - write \"n\" to select next nest" << endl;
+        cout << "\\n - press enter for playing next turn" << endl;
+
+    }
+
 }
 
 
 
 
 void CGame::start_game(){
+    map.printmap();
     while(1){
  
+        show_options();
         take_input();
 
         if(check_for_win()){

@@ -29,11 +29,14 @@ class CGame{
 
     void next_tick();
 
+    void show_options();
+    
     void take_input();
 
     CNest * select_nest();
 
     bool check_for_win();
+
 
     public:
 

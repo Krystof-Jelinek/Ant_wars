@@ -229,7 +229,9 @@ void CMap::attack(CNest * attacker, CNest * victim){
     CRoad tmp_path = find_shortest_path(attacker,victim);
 
     if (validate_path(tmp_path) == false){
-        cout << "Na toto mraveniste nelze zautocit" << endl;
+        cout << endl;
+        cout << endl;
+        cout << "You cant attack this nest" << endl;
         return;
     }
 
@@ -245,7 +247,9 @@ void CMap::attack(CNest * attacker, CNest * victim){
     if(attacker->m_color == victim->m_color){
         for(auto itr = victim->m_attacking_paths.begin();itr != victim->m_attacking_paths.end();itr++){
             if(road_compare((*(*itr).get()),tmp_path)){
-                cout << "You cant send ants in between two nests" << endl;
+                cout << endl;
+                cout << endl;
+                cout << "You cant send ants in between both nests like this" << endl;
                 return;
             }
         }
@@ -290,6 +294,7 @@ void CMap::stop_attack(CNest * coward, CNest * chad){
         }
     }
     if(flag == false){
+        reset_selection();
         cout << "You dont even attack here!" << endl;
         return;
     }
@@ -339,6 +344,15 @@ void CMap::select_next_nest(){
             }
         }
     }
+}
+
+void CMap::reset_selection(){
+    if(m_selected_nest == nullptr){
+        return;
+    }
+    this->clear_nest_selection(m_selected_nest);
+    m_selected_nest = nullptr;
+    return;
 }
 
 bool CMap::validate_path(CRoad & src){

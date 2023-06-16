@@ -53,4 +53,6 @@ class CMap{
     bool validate_path(CRoad & src);
 
     void select_next_nest();
+
+    void reset_selection();
 };   
