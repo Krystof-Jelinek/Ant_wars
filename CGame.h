@@ -29,6 +29,8 @@ class CGame{
 
     void next_tick();
 
+    void update_all_players();
+
     void show_options();
     
     void take_input();

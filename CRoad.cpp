@@ -6,9 +6,6 @@ CRoad::CRoad(coords begin, coords end){
         m_begin = begin;
         m_end = end;
 
-        //m_nest_begin = nest_beg;
-       //m_nest_end = nest_end;
-        
         road.clear();
         road.push_back(begin);
 

@@ -1,5 +1,5 @@
-all: CTile.o main.o CMap.o CNest.o CAnt.o CExplodingAnt.o CFlyingAnt.o CCoordinates.o CRoad.o CGame.o CInterface.o
-	g++ -Wall -pedantic -g main.o CTile.o CNest.o CMap.o CAnt.o CExplodingAnt.o CFlyingAnt.o CCoordinates.o CRoad.o CGame.o CInterface.o -o a.out
+all: CTile.o main.o CMap.o CNest.o CAnt.o CExplodingAnt.o CFlyingAnt.o CCoordinates.o CRoad.o CGame.o CInterface.o CPlayer.o CSkill.o CSkillTree.o
+	g++ -Wall -pedantic -g main.o CTile.o CNest.o CMap.o CAnt.o CExplodingAnt.o CFlyingAnt.o CCoordinates.o CRoad.o CGame.o CInterface.o CPlayer.o CSkill.o CSkillTree.o -o a.out
 
 main.o: main.cpp
 	g++ -Wall -pedantic -g -c main.cpp
@@ -33,6 +33,15 @@ CGame.o: CGame.cpp CGame.h
 
 CInterface.o: CInterface.cpp CInterface.h
 	g++ -Wall -pedantic -g -c CInterface.cpp
+
+CPlayer.o: CPlayer.cpp CPlayer.h
+	g++ -Wall -pedantic -g -c CPlayer.cpp
+
+CSkill.o: CSkill.cpp CSkill.h
+	g++ -Wall -pedantic -g -c CSkill.cpp
+
+CSkillTree.o: CSkillTree.cpp CSkillTree.h
+	g++ -Wall -pedantic -g -c CSkillTree.cpp	
 
 clear:
 	rm *.o

@@ -1,12 +1,12 @@
 #pragma once
 
 #include <iostream>
-#include "CNest.h"
+//#include "CNest.h"
 
 
-class CSkill{
+/*class CSkill{
     
     public:
-    virtual void affect_nest(CNest * src) = 0;
+    //virtual void affect_nest(CNest * src) = 0;
         
-};   
+};  */

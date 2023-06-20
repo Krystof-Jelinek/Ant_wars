@@ -49,7 +49,7 @@ bool CAnt::move(){
         auto prev_itr = itr;
         itr++;
 
-        //koukam se jaky je dalsi prvek v rade a zajima me jestli vzdalenost toho bodu je mensi nebo vetsi nez kdybych sel na druhou stranu
+        //compare whether the distanec from my destination is gettin longer or shorter and by that criteria the path is picked for the ant
         if(next_itr == m_road->road.end()){
             m_position = (*prev_itr);
             return false;

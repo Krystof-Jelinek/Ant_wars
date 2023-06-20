@@ -8,10 +8,51 @@
 #include "CCoordinates.h"
 #include "CAnt.h"
 #include "CRoad.h"
+#include "CSkill.h"
 
-
+//#include "CSkillTree.h"
 
 using namespace std;
+
+class CNest;
+
+
+class CSkill{
+    public:
+    string m_skill_name;
+
+    virtual void affect_nest(CNest * src) = 0;
+};
+
+class CFast_rep : CSkill{
+    void affect_nest(CNest * src) override;
+};
+
+class CFast_ant : CSkill{
+    void affect_nest(CNest * src) override;
+};
+
+class CMore_sup : CSkill{
+    void affect_nest(CNest * src) override;
+};
+
+class CStrong_ant : CSkill{
+    void affect_nest(CNest * src) override;
+};
+
+class CSkillTree{
+    private:
+    
+    CNest * m_nest_ptr;
+    vector<CSkill *> m_skills;
+
+    public:
+
+    CSkillTree();
+    CSkillTree(CNest * src);
+
+};
+
 
 class CNest{
     private:
@@ -25,10 +66,9 @@ class CNest{
     int m_ant_dmg = 40;
     int m_ant_speed = 2;
 
+    CSkillTree m_tree;
+
     public:
-
-    //tmp v publicu
-
     char m_color = 'Y';
     int m_num_ants = 0;
     int m_currently_attacking = 0;

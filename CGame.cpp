@@ -42,6 +42,7 @@ CNest * CGame::select_nest(){
 
 void CGame::next_tick(){
     current_tick++;
+    update_all_players();
     map.update_map(current_tick);
     map.printmap();
 }
@@ -172,12 +173,19 @@ void CGame::show_options(){
 
 }
 
+void CGame::update_all_players(){
+    for(auto itr = all_players.begin(); itr != all_players.end();itr++){
+        (*itr).update_state(current_tick);
+    }
+}
+
+
 
 
 
 void CGame::start_game(){
     map.printmap();
-    while(1){
+    while(true){
  
         show_options();
         take_input();

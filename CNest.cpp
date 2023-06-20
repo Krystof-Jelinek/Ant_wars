@@ -19,16 +19,16 @@ CNest::CNest(CCoordinates coordinates, char color){
 }
 
 void CNest::setcoordinates(int x1, int x2, int y1, int y2){
-        m_coordinates = CCoordinates(x1,x2,y1,y2);
-    }
+    m_coordinates = CCoordinates(x1,x2,y1,y2);
+}
 
 char CNest::first_ant_num() const {
-        return char(m_num_ants%10 + '0');
+    return char(m_num_ants%10 + '0');
 }
 
 char CNest::second_ant_num() const {
-        return char((floor(m_num_ants /10.0)) + '0');
-    }
+    return char((floor(m_num_ants /10.0)) + '0');
+}
 
 void CNest::state_update(int tick){
     if(tick%m_produc_speed == 0){
@@ -137,3 +137,14 @@ CRoad find_shortest_path(CNest *attacker, CNest *victim)
     CRoad ret(tmp_start,tmp_end);
     return ret;
 }
+
+CSkillTree::CSkillTree(){
+    m_nest_ptr = nullptr;
+}
+
+CSkillTree::CSkillTree(CNest * ptr){
+    m_nest_ptr = ptr;
+}
+
+
+

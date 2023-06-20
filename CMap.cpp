@@ -163,16 +163,16 @@ bool CMap::update_ant(CAnt * src, int tick){
         return true;
     }
 
-    //smaze nejdrive svuj pointer z mista ze ktereho odchazi
+    //first ant removes its pointer from the tile hes leaving
     (*this)[src->m_position].reset_tile();
 
-    //aktualizuje svoji pozici
+    //then he updates his position
     src->update_map_state(tick);
     
     if((*this)[src->m_position].m_ant_ocup != nullptr){
         
         if((*this)[src->m_position].m_ant_ocup->m_color != src->m_color){
-        //musi dojit k fightu
+        //now the fight must happen
             
             
             CAnt * enemy = (*this)[src->m_position].m_ant_ocup;
@@ -194,7 +194,7 @@ bool CMap::update_ant(CAnt * src, int tick){
 
     }
 
-    //pokud dorazil do hnizda
+    //if the ant managed to get to the destination nest
 
     if(((*this)[src->m_position].m_nest_ocup != nullptr)&&(src->m_position == src->m_destiny_coords)){
         CNest * nest_ptr = (*this)[src->m_position].m_nest_ocup;
@@ -203,6 +203,11 @@ bool CMap::update_ant(CAnt * src, int tick){
             nest_ptr->m_num_ants = nest_ptr->m_num_ants -1;
             if(nest_ptr->m_num_ants == -1){
                 nest_ptr->m_color = src->m_color;
+                //reseting all the paths that were set on this nest because its changing its owner
+                nest_ptr->m_connected_paths.clear();
+                nest_ptr->m_attacking_paths.clear();
+                nest_ptr->m_currently_attacking_num = 0;
+
                 nest_ptr->m_num_ants = 1;
             }
             return true;

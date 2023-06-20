@@ -9,6 +9,14 @@ CRoad.o
 CTile.o
 CGame.o
 CInterface.o
+CPlayer.o
+CSkill.o
+CSkillTree.o
+
+CSkillTree.cpp
+CSkillTree.h
+CSkill.cpp
+
 a.out
 build/
 main.o
