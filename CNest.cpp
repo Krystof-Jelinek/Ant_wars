@@ -50,6 +50,10 @@ void CNest::set_product_speed(int value){
     m_produc_speed = value;
 }
 
+void CNest::set_sup_boost(bool input){
+    m_ant_sup_boost = input;
+}
+
 
 char CNest::first_ant_num() const {
     return char(m_num_ants%10 + '0');
@@ -78,8 +82,12 @@ bool CNest::create_ant_check(int tick){
     if(m_currently_attacking_num == 0){
         return false;
     }
+
+    if(m_num_ants <= 0){
+        return false;
+    }
     
-    if(tick % m_produc_speed == 0){
+    if(tick % m_send_speed == 0){
         return true;
     }
     return false;
@@ -141,7 +149,7 @@ CAnt CNest::create_ant(){
     }
 
 
-    CAnt tmp(m_ant_health, m_ant_dmg, m_ant_speed,m_color,starting,ending,m_attacking_paths[m_currently_attacking]);
+    CAnt tmp(m_ant_health, m_ant_dmg, m_ant_speed,m_color,m_ant_sup_boost,starting,ending,m_attacking_paths[m_currently_attacking]);
     this->m_num_ants--;
     this->m_currently_attacking++;
     return tmp;
@@ -215,5 +223,12 @@ CFast_rep::CFast_rep(string & m_name, int cost)
 :CSkill(m_name,cost){}
 
 void CFast_rep::affect_nest(CNest * src){
-    src->set_product_speed(3);
+    src->set_product_speed(4);
+}
+
+CMore_sup::CMore_sup(string & m_name, int cost)
+:CSkill(m_name,cost){}
+
+void CMore_sup::affect_nest(CNest * src){
+    src->set_sup_boost(true);
 }

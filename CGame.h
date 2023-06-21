@@ -27,6 +27,10 @@ class CGame{
 
     void set_skilltree_pointers();
 
+    void set_players_nests();
+
+    void flush_players_nests();
+
     void start_game();
 
     void next_tick();

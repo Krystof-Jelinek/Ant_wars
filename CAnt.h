@@ -17,6 +17,8 @@ class CAnt{
     int m_dmg;
     char m_color;
 
+    bool m_support_boost;
+
     shared_ptr<CRoad> m_road;
     coords m_position;
     coords m_destiny_coords;
@@ -25,7 +27,7 @@ class CAnt{
 
     CAnt();
 
-    CAnt(int health, int dmg, int speed,char color,coords position, coords destiny_position, shared_ptr<CRoad> road);
+    CAnt(int health, int dmg, int speed,char color, bool sup_boost,coords position, coords destiny_position, shared_ptr<CRoad> road);
 
     bool update_map_state(int tick);
 

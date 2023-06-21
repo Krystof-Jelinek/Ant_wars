@@ -177,8 +177,8 @@ bool CMap::update_ant(CAnt * src, int tick){
             
             CAnt * enemy = (*this)[src->m_position].m_ant_ocup;
             while((src->m_health > 0)&&(enemy->m_health > 0)){
-                src->m_health = src->m_health - enemy->m_dmg;
-                enemy->m_health = enemy->m_health - src->m_dmg;
+                src->attack(enemy);
+                enemy->attack(src);
             }
 
             if((src->m_health <= 0)&&(enemy->m_health <= 0)){
@@ -214,6 +214,12 @@ bool CMap::update_ant(CAnt * src, int tick){
         }
 
         if(nest_ptr->m_color == src->m_color){
+
+            if(src->m_support_boost == true){
+                nest_ptr->m_num_ants = nest_ptr->m_num_ants +2;
+                return true;
+            }
+
             nest_ptr->m_num_ants = nest_ptr->m_num_ants +1;
             return true;
         }

@@ -39,6 +39,8 @@ class CFast_ant : public CSkill{
 };
 
 class CMore_sup : public CSkill{
+    public:
+    CMore_sup(string & m_name, int cost);
     void affect_nest(CNest * src) override;
 };
 
@@ -70,12 +72,14 @@ class CNest{
     
     //basic stats of the nest
     int m_health = 1500;
-    int m_produc_speed = 5;
+    int m_produc_speed = 6;
+    int m_send_speed = 3;
     
     //basic values for the produced ant, these will change with buffs
     int m_ant_health = 40;
     int m_ant_dmg = 40;
     int m_ant_speed = 2;
+    bool m_ant_sup_boost = false;
 
 
     public:
@@ -103,6 +107,8 @@ class CNest{
     void set_ant_dmg(int value);
 
     void set_product_speed(int value);
+
+    void set_sup_boost(bool input);
 
     char first_ant_num() const ;
 

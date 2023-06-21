@@ -9,9 +9,11 @@ void CGame::set_board(){
 
     string tmp = "jmeno";
 
-    green.m_tree.m_skills.push_back(make_shared<CFast_ant>(tmp,10));
-    green.m_tree.m_skills.push_back(make_shared<CStrong_ant>(tmp,10));
-    green.m_tree.m_skills.push_back(make_shared<CFast_rep>(tmp,10));
+    //green.m_tree.m_skills.push_back(make_shared<CFast_ant>(tmp,10));
+    //green.m_tree.m_skills.push_back(make_shared<CStrong_ant>(tmp,10));
+    //green.m_tree.m_skills.push_back(make_shared<CFast_rep>(tmp,10));
+    //green.m_tree.m_skills.push_back(make_shared<CMore_sup>(tmp,10));
+
 
 
 
@@ -23,6 +25,7 @@ void CGame::set_board(){
 
 
     set_skilltree_pointers();
+    set_players_nests();
 
     //map.setwall(coords(0,15),coords(20,15));
 
@@ -33,6 +36,23 @@ void CGame::set_skilltree_pointers(){
         (*itr).m_tree.set_ptr(&(*itr));
     }
 }
+
+void CGame::set_players_nests(){
+    for(auto itr = map.all_nests.begin(); itr != map.all_nests.end();itr++){
+        for(auto itr2 = all_players.begin(); itr2 != all_players.end();itr2++){
+            if((*itr).m_color == (*itr2).m_color){
+                (*itr2).add_nest(&(*itr));
+            }
+        }
+    }
+}
+
+void CGame::flush_players_nests(){
+    for(auto itr = all_players.begin(); itr != all_players.end();itr++){
+        (*itr).players_nests.clear();
+    }
+}
+
 
 
 CNest * CGame::select_nest(){
@@ -170,6 +190,11 @@ void CGame::take_input(){
     
     }
 
+    //for opening the upgrade menu
+    if(input == "u"){
+        
+    }
+
     else{
         cout << "Invalid Input!" << endl;
     }
@@ -184,6 +209,7 @@ void CGame::show_options(){
     else{
         cout << "a - write \"a\" to send ants from this nest" << endl;
         cout << "j - write \"j\" to stop sending ants from this nest" << endl;
+        cout << "u - write \"u\" to open upgrade menu for this nest" << endl;
         cout << "c - write \"c\" to stop nest selection mode" << endl;
         cout << "n - write \"n\" to select next nest" << endl;
         cout << "\\n - press enter for playing next turn" << endl;
@@ -193,6 +219,8 @@ void CGame::show_options(){
 }
 
 void CGame::update_all_players(){
+    flush_players_nests();
+    set_players_nests();
     for(auto itr = all_players.begin(); itr != all_players.end();itr++){
         (*itr).update_state(current_tick);
     }

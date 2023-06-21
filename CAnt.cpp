@@ -5,9 +5,10 @@ CAnt::CAnt(){
     m_dmg = 20;
     m_speed = 3;
     m_road = nullptr;
+    m_support_boost = false;
 }
 
-CAnt::CAnt(int health, int dmg, int speed,char color,coords position, coords destiny_position, shared_ptr<CRoad> road){
+CAnt::CAnt(int health, int dmg, int speed,char color,bool sup_boost,coords position, coords destiny_position, shared_ptr<CRoad> road){
     m_health = health;
     m_dmg = dmg;
     m_speed = speed;
@@ -15,6 +16,7 @@ CAnt::CAnt(int health, int dmg, int speed,char color,coords position, coords des
     m_destiny_coords = destiny_position;
     m_color = color;
     m_road = road;
+    m_support_boost = sup_boost;
 }
 
 void CAnt::set_destiny_coords(const coords & src ){
@@ -70,7 +72,7 @@ bool CAnt::move(){
 
 
 void CAnt::attack(CAnt * victim){
-
+    victim->m_health = victim->m_health - this->m_dmg;
 }
 
 void CAnt::affect_nest(){

@@ -6,7 +6,7 @@
 
 class CExplodingAnt: CAnt{
 
-    CExplodingAnt(int health, int dmg, int speed,char color,coords position, coords destiny_position, shared_ptr<CRoad> road);
+    CExplodingAnt(int health, int dmg, int speed,char color,bool sup,coords position, coords destiny_position, shared_ptr<CRoad> road);
 
 
     bool move() override;
