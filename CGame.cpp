@@ -7,14 +7,33 @@ void CGame::set_board(){
     CNest gray(CCoordinates(40,46,3,5),'Y');
     CNest green2(CCoordinates(50,56,25,27),'G');
 
+    string tmp = "jmeno";
+
+    green.m_tree.m_skills.push_back(make_shared<CFast_ant>(tmp,10));
+    green.m_tree.m_skills.push_back(make_shared<CStrong_ant>(tmp,10));
+    green.m_tree.m_skills.push_back(make_shared<CFast_rep>(tmp,10));
+
+
+
     map.add_nest(green);
     map.add_nest(red);
     //map.add_nest(gray);
     map.add_nest(green2);
 
+
+
+    set_skilltree_pointers();
+
     //map.setwall(coords(0,15),coords(20,15));
 
 }
+
+void CGame::set_skilltree_pointers(){
+    for(auto itr = map.all_nests.begin(); itr != map.all_nests.end();itr++){
+        (*itr).m_tree.set_ptr(&(*itr));
+    }
+}
+
 
 CNest * CGame::select_nest(){
     while(true){

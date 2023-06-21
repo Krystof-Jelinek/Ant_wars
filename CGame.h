@@ -25,6 +25,8 @@ class CGame{
 
     void set_board();
 
+    void set_skilltree_pointers();
+
     void start_game();
 
     void next_tick();

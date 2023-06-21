@@ -20,23 +20,31 @@ class CNest;
 class CSkill{
     public:
     string m_skill_name;
+    int m_cost;
 
+    CSkill(string & m_name, int cost);
     virtual void affect_nest(CNest * src) = 0;
 };
 
-class CFast_rep : CSkill{
+class CFast_rep : public CSkill{
+    public:
+    CFast_rep(string & m_name, int cost);
     void affect_nest(CNest * src) override;
 };
 
-class CFast_ant : CSkill{
+class CFast_ant : public CSkill{
+    public:
+    CFast_ant(string & m_name, int cost);
     void affect_nest(CNest * src) override;
 };
 
-class CMore_sup : CSkill{
+class CMore_sup : public CSkill{
     void affect_nest(CNest * src) override;
 };
 
-class CStrong_ant : CSkill{
+class CStrong_ant : public CSkill{
+    public:
+    CStrong_ant(string & m_name, int cost);
     void affect_nest(CNest * src) override;
 };
 
@@ -44,12 +52,15 @@ class CSkillTree{
     private:
     
     CNest * m_nest_ptr;
-    vector<CSkill *> m_skills;
 
     public:
+    vector<shared_ptr<CSkill>> m_skills;
 
     CSkillTree();
     CSkillTree(CNest * src);
+
+    void set_ptr(CNest * src);
+    void make_effect();
 
 };
 
@@ -66,7 +77,6 @@ class CNest{
     int m_ant_dmg = 40;
     int m_ant_speed = 2;
 
-    CSkillTree m_tree;
 
     public:
     char m_color = 'Y';
@@ -74,6 +84,7 @@ class CNest{
     int m_currently_attacking = 0;
     int m_currently_attacking_num = 0;
 
+    CSkillTree m_tree;
     CCoordinates m_coordinates;
     vector<shared_ptr<CRoad>> m_connected_paths;
     vector<shared_ptr<CRoad>> m_attacking_paths;
@@ -85,13 +96,17 @@ class CNest{
 
     void setcoordinates(int x1, int x2, int y1, int y2);
 
+    void set_ant_health(int value);
+
+    void set_ant_speed(int value);
+
+    void set_ant_dmg(int value);
+
+    void set_product_speed(int value);
+
     char first_ant_num() const ;
 
     char second_ant_num() const ;
-
-    void show_upgrades(ostream & src);
-
-    CRoad find_closest_path(CNest * attacker, CNest * victim);
 
     void state_update(int tick);
 
