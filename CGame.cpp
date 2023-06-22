@@ -1,6 +1,11 @@
 #include "CGame.h"
 
 void CGame::set_board(){
+
+    CPlayer green_player('G');
+    CPlayer red_player('R');
+
+
     CNest green(CCoordinates(10,16,20,22),'G');
     CNest red(CCoordinates(20,26,6,8),'R');
     
@@ -22,6 +27,11 @@ void CGame::set_board(){
     //map.add_nest(gray);
     map.add_nest(green2);
 
+    add_player(green_player);
+    add_player(red_player);
+
+
+
 
 
     set_skilltree_pointers();
@@ -35,6 +45,10 @@ void CGame::set_skilltree_pointers(){
     for(auto itr = map.all_nests.begin(); itr != map.all_nests.end();itr++){
         (*itr).m_tree.set_ptr(&(*itr));
     }
+}
+
+void CGame::add_player(CPlayer & src){
+    all_players.push_back(src);
 }
 
 void CGame::set_players_nests(){
@@ -52,8 +66,6 @@ void CGame::flush_players_nests(){
         (*itr).players_nests.clear();
     }
 }
-
-
 
 CNest * CGame::select_nest(){
     while(true){
@@ -124,7 +136,7 @@ void CGame::take_input(){
         return;
     }
 
-    if(input == "c"){
+    if(input == "q"){
         map.reset_selection();
         map.printmap();
         return;
@@ -192,7 +204,12 @@ void CGame::take_input(){
 
     //for opening the upgrade menu
     if(input == "u"){
+        map.printmap();
+        show_upgrade_menu();
+        take_upgrade_input();
         
+        
+        return;
     }
 
     else{
@@ -210,11 +227,178 @@ void CGame::show_options(){
         cout << "a - write \"a\" to send ants from this nest" << endl;
         cout << "j - write \"j\" to stop sending ants from this nest" << endl;
         cout << "u - write \"u\" to open upgrade menu for this nest" << endl;
-        cout << "c - write \"c\" to stop nest selection mode" << endl;
+        cout << "q - write \"c\" to stop nest selection mode" << endl;
         cout << "n - write \"n\" to select next nest" << endl;
         cout << "\\n - press enter for playing next turn" << endl;
 
     }
+
+}
+
+void CGame::take_upgrade_input(){
+    
+    string input;
+    getline(cin,input,'\n');
+
+    int dna_points;
+    CPlayer * player_ptr = nullptr;
+    for(auto itr = all_players.begin(); itr != all_players.end();itr++){
+        if(itr->m_color == map.m_selected_nest->m_color){
+            dna_points = itr->dna_points;
+            player_ptr = &(*itr);
+            break;
+        }
+    }
+
+    if(player_ptr == nullptr){
+        throw logic_error("It shouldnt be possible that no player is selected");
+    }
+
+    if(input == "q"){
+        map.printmap();
+        return;
+    }
+
+    if(input == "1"){
+
+        string skill_name = "faster_ants";
+
+        if(map.m_selected_nest->already_has_skill(skill_name)){
+            map.printmap();
+            cout << "This nest already has this skill" << endl;
+            return;
+        }
+
+        if(dna_points < 10){
+            map.printmap();
+            cout << "You dont have enough dna points for this upgrade" << endl;
+            return;
+        }
+
+        auto ptr = make_shared<CFast_ant>(skill_name,10);
+        map.m_selected_nest->add_skill(ptr);
+        player_ptr->dna_points = player_ptr->dna_points -10;
+        map.printmap();
+        return; 
+    }
+
+    if(input == "2"){
+
+        string skill_name = "faster_breeding";
+
+        if(map.m_selected_nest->already_has_skill(skill_name)){
+            map.printmap();
+            cout << "This nest already has this skill" << endl;
+            return;
+        }
+
+        if(dna_points < 10){
+            map.printmap();
+            cout << "You dont have enough dna points for this upgrade" << endl;
+            return;
+        }
+
+        auto ptr = make_shared<CFast_rep>(skill_name,10);
+        map.m_selected_nest->add_skill(ptr);
+        player_ptr->dna_points = player_ptr->dna_points -10;
+        map.printmap();
+        return; 
+    }
+
+    if(input == "3"){
+
+        string skill_name = "stronger_ants";
+
+        if(map.m_selected_nest->already_has_skill(skill_name)){
+            map.printmap();
+            cout << "This nest already has this skill" << endl;
+            return;
+        }
+
+        if(dna_points < 10){
+            map.printmap();
+            cout << "You dont have enough dna points for this upgrade" << endl;
+            return;
+        }
+
+        auto ptr = make_shared<CStrong_ant>(skill_name,10);
+        map.m_selected_nest->add_skill(ptr);
+        player_ptr->dna_points = player_ptr->dna_points -10;
+        map.printmap();
+        return; 
+    }
+
+    if(input == "4"){
+
+        string skill_name = "support_ants";
+
+        if(map.m_selected_nest->already_has_skill(skill_name)){
+            map.printmap();
+            cout << "This nest already has this skill" << endl;
+            return;
+        }
+
+        if(dna_points < 10){
+            map.printmap();
+            cout << "You dont have enough dna points for this upgrade" << endl;
+            return;
+        }
+
+        auto ptr = make_shared<CMore_sup>(skill_name,10);
+        map.m_selected_nest->add_skill(ptr);
+        player_ptr->dna_points = player_ptr->dna_points -10;
+        map.printmap();
+        return; 
+    }
+
+}
+
+
+void CGame::show_upgrade_menu(){
+
+    if(all_players.empty()){
+        throw logic_error("there are no players");
+    }
+
+    auto itr = all_players.begin();
+
+    for(itr = all_players.begin(); itr != all_players.end(); itr++){
+        if(map.m_selected_nest->m_color == itr->m_color){
+            break;
+        }
+    }
+
+    cout << "Your DNA points: " << itr->dna_points << endl;
+    cout << "Which skills you want to evolve ?" << endl;
+    
+    if(map.m_selected_nest->already_has_skill("faster_ants")){
+        cout << "These ants cant get any faster than this!" << endl;
+    }
+    else{
+        cout << "1 - write \"1\" to get faster moving ants" << endl;
+    }
+
+    if(map.m_selected_nest->already_has_skill("faster_breeding")){
+        cout << "They are already using their queen to its limits" << endl;
+    }
+    else{
+        cout << "2 - write \"2\" to get faster breeding ants" << endl;
+    }
+
+    if(map.m_selected_nest->already_has_skill("stronger_ants")){
+        cout << "Already on steroids doesnt get stronger than this" << endl;
+    }
+    else{
+        cout << "3 - write \"3\" to get stronger ants" << endl;
+    }
+
+    if(map.m_selected_nest->already_has_skill("support_ants")){
+        cout << "They cant support more than this they arent support dogs" << endl;
+    }
+    else{
+        cout << "4 - write \"4\" to get better support ants" << endl;
+    }
+    cout << "q - write \"q\" to cancel and go back" << endl;
 
 }
 

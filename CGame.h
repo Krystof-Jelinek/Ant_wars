@@ -27,6 +27,8 @@ class CGame{
 
     void set_skilltree_pointers();
 
+    void add_player(CPlayer & src);
+
     void set_players_nests();
 
     void flush_players_nests();
@@ -40,6 +42,10 @@ class CGame{
     void show_options();
     
     void take_input();
+
+    void take_upgrade_input();
+
+    void show_upgrade_menu();
 
     CNest * select_nest();
 

@@ -74,6 +74,20 @@ void CNest::state_update(int tick){
     }
 }
 
+void CNest::add_skill(shared_ptr<CSkill> src){
+    m_tree.m_skills.push_back(src);
+}
+
+bool CNest::already_has_skill(const string & name){
+    for(auto itr = m_tree.m_skills.begin(); itr != m_tree.m_skills.end(); itr++){
+        if((*itr).get()->m_skill_name == name){
+            return true;
+        }
+    }
+    return false;
+}
+
+
 bool CNest::create_ant_check(int tick){
     if(m_attacking_paths.empty()){
         return false;

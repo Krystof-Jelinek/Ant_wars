@@ -116,6 +116,10 @@ class CNest{
 
     void state_update(int tick);
 
+    void add_skill(shared_ptr<CSkill> src);
+
+    bool already_has_skill(const string & name);
+
     bool create_ant_check(int tick);
 
     coords get_starting_coords();
