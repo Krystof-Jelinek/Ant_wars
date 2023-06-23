@@ -54,6 +54,11 @@ void CNest::set_sup_boost(bool input){
     m_ant_sup_boost = input;
 }
 
+void CNest::set_exploding(bool input){
+    exploding_ants = input;
+}
+
+
 
 char CNest::first_ant_num() const {
     return char(m_num_ants%10 + '0');
@@ -146,7 +151,7 @@ coords CNest::get_starting_coords(){
     throw invalid_argument("Mistake in getting starting coordinates for ant!");
 }
 
-CAnt CNest::create_ant(){
+shared_ptr<CAnt> CNest::create_ant(){
 
     if(m_currently_attacking == m_currently_attacking_num){
         m_currently_attacking = 0;
@@ -162,8 +167,14 @@ CAnt CNest::create_ant(){
         ending = m_attacking_paths[m_currently_attacking].get()->m_end;
     }
 
+    if(exploding_ants){
+        auto tmp = make_shared<CExplodingAnt>(m_ant_health, m_ant_dmg, m_ant_speed,m_color,m_ant_sup_boost,starting,ending,m_attacking_paths[m_currently_attacking]);
+        this->m_num_ants--;
+        this->m_currently_attacking++;
+        return tmp;
+    }
 
-    CAnt tmp(m_ant_health, m_ant_dmg, m_ant_speed,m_color,m_ant_sup_boost,starting,ending,m_attacking_paths[m_currently_attacking]);
+    auto tmp = make_shared<CAnt>(m_ant_health, m_ant_dmg, m_ant_speed,m_color,m_ant_sup_boost,starting,ending,m_attacking_paths[m_currently_attacking]);
     this->m_num_ants--;
     this->m_currently_attacking++;
     return tmp;
@@ -213,19 +224,19 @@ void CSkillTree::set_ptr(CNest * src){
 
 //----------------------------------------------------------------------------------------
 
-CSkill::CSkill(string & m_name, int cost){
+CSkill::CSkill(const string & m_name, int cost){
     m_skill_name = m_name;
     m_cost = cost;
 }
 
-CFast_ant::CFast_ant(string & m_name, int cost)
+CFast_ant::CFast_ant(const string & m_name, int cost)
 :CSkill(m_name,cost){}
 
 void CFast_ant::affect_nest(CNest * src){
     src->set_ant_speed(1);
 }
 
-CStrong_ant::CStrong_ant(string & m_name, int cost)
+CStrong_ant::CStrong_ant(const string & m_name, int cost)
 :CSkill(m_name,cost){}
 
 void CStrong_ant::affect_nest(CNest * src){
@@ -233,14 +244,14 @@ void CStrong_ant::affect_nest(CNest * src){
     src->set_ant_dmg(80);
 }
 
-CFast_rep::CFast_rep(string & m_name, int cost)
+CFast_rep::CFast_rep(const string & m_name, int cost)
 :CSkill(m_name,cost){}
 
 void CFast_rep::affect_nest(CNest * src){
     src->set_product_speed(4);
 }
 
-CMore_sup::CMore_sup(string & m_name, int cost)
+CMore_sup::CMore_sup(const string & m_name, int cost)
 :CSkill(m_name,cost){}
 
 void CMore_sup::affect_nest(CNest * src){

@@ -9,6 +9,8 @@
 #include "CAnt.h"
 #include "CRoad.h"
 #include "CSkill.h"
+#include "CExplodingAnt.h"
+
 
 //#include "CSkillTree.h"
 
@@ -22,31 +24,31 @@ class CSkill{
     string m_skill_name;
     int m_cost;
 
-    CSkill(string & m_name, int cost);
+    CSkill(const string & m_name, int cost);
     virtual void affect_nest(CNest * src) = 0;
 };
 
 class CFast_rep : public CSkill{
     public:
-    CFast_rep(string & m_name, int cost);
+    CFast_rep(const string & m_name, int cost);
     void affect_nest(CNest * src) override;
 };
 
 class CFast_ant : public CSkill{
     public:
-    CFast_ant(string & m_name, int cost);
+    CFast_ant(const string & m_name, int cost);
     void affect_nest(CNest * src) override;
 };
 
 class CMore_sup : public CSkill{
     public:
-    CMore_sup(string & m_name, int cost);
+    CMore_sup(const string & m_name, int cost);
     void affect_nest(CNest * src) override;
 };
 
 class CStrong_ant : public CSkill{
     public:
-    CStrong_ant(string & m_name, int cost);
+    CStrong_ant(const string & m_name, int cost);
     void affect_nest(CNest * src) override;
 };
 
@@ -80,6 +82,7 @@ class CNest{
     int m_ant_dmg = 40;
     int m_ant_speed = 2;
     bool m_ant_sup_boost = false;
+    bool exploding_ants = false;
 
 
     public:
@@ -110,6 +113,8 @@ class CNest{
 
     void set_sup_boost(bool input);
 
+    void set_exploding(bool input);
+
     char first_ant_num() const ;
 
     char second_ant_num() const ;
@@ -124,7 +129,7 @@ class CNest{
 
     coords get_starting_coords();
 
-    CAnt create_ant();
+    shared_ptr<CAnt> create_ant();
 
 };
 

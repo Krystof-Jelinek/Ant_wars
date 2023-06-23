@@ -17,10 +17,6 @@ void CMap::add_nest(const CNest & src){
     all_nests.push_back(src);
 }
 
-void CMap::add_ant(const CAnt & src){
-    all_ants.push_back(src);
-}
-
 void CMap::setfields_char(const CCoordinates & src, char c){
      for(int j = 0; j < m_hight;j++){
         for(int i = 0; i< m_lenght;i++){ 
@@ -157,7 +153,7 @@ void CMap::update_nest(CNest * src,int tick){
 
 }
 
-bool CMap::update_ant(CAnt * src, int tick){
+bool CMap::update_ant(shared_ptr<CAnt> src, int tick){
 
     if(src->m_health <= 0){
         return true;
@@ -175,7 +171,7 @@ bool CMap::update_ant(CAnt * src, int tick){
         //now the fight must happen
             
             
-            CAnt * enemy = (*this)[src->m_position].m_ant_ocup;
+            shared_ptr<CAnt> enemy = (*this)[src->m_position].m_ant_ocup;
             while((src->m_health > 0)&&(enemy->m_health > 0)){
                 src->attack(enemy);
                 enemy->attack(src);
@@ -378,7 +374,7 @@ bool CMap::validate_path(CRoad & src){
 void CMap::clean_dead_bodies(){
 
     for(auto itr = all_ants.begin();itr != all_ants.end();){
-        if((*itr).m_health <= 0){
+        if(((*itr)->m_health) <= 0){
             itr = all_ants.erase(itr);
             continue;
         }
@@ -395,7 +391,7 @@ void CMap::update_map(int tick){
 
     for(auto itr = all_ants.begin();itr != all_ants.end();){
         
-        if(this->update_ant(&(*itr),tick) == true){
+        if(this->update_ant((*itr),tick) == true){
             itr = all_ants.erase(itr);
             continue;
         }

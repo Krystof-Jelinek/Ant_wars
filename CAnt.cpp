@@ -71,7 +71,7 @@ bool CAnt::move(){
 }
 
 
-void CAnt::attack(CAnt * victim){
+void CAnt::attack(shared_ptr<CAnt> victim){
     victim->m_health = victim->m_health - this->m_dmg;
 }
 

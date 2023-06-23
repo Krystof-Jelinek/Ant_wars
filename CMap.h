@@ -14,15 +14,13 @@ class CMap{
     int m_hight = 30;
     CTile map[70][30];
     vector<CNest> all_nests;
-    vector<CAnt> all_ants;
+    vector<shared_ptr<CAnt>> all_ants;
     CNest * m_selected_nest = nullptr; 
 
     
     CMap();
 
     void add_nest(const CNest & src);
-
-    void add_ant(const CAnt & src);
 
     void setfields_char(const CCoordinates & src, char c);
 
@@ -38,7 +36,7 @@ class CMap{
 
     void update_nest(CNest * src,int tick);
 
-    bool update_ant(CAnt * src, int tick);
+    bool update_ant(shared_ptr<CAnt> src, int tick);
 
     void attack(CNest * attacker, CNest * victim);
 

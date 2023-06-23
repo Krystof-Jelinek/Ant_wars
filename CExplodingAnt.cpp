@@ -4,15 +4,11 @@ CExplodingAnt::CExplodingAnt(int health, int dmg, int speed,char color, bool sup
     : CAnt(health, dmg, speed, color, sup ,position, destiny_position, road){}
 
 
-void CExplodingAnt::attack(CAnt * victim){
+void CExplodingAnt::attack(shared_ptr<CAnt> victim){
     victim->m_health = 0;
     this->m_health = 0;
 } 
 
 void CExplodingAnt::affect_nest(){
     
-}
-
-bool CExplodingAnt::move(){
-    return false;
 }

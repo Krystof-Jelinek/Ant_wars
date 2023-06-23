@@ -12,7 +12,8 @@ void CGame::set_board(){
     CNest gray(CCoordinates(40,46,3,5),'Y');
     CNest green2(CCoordinates(50,56,25,27),'G');
 
-    string tmp = "jmeno";
+    green.set_exploding(true);
+    red.add_skill(make_shared<CStrong_ant>("stronger_ants",10));
 
     //green.m_tree.m_skills.push_back(make_shared<CFast_ant>(tmp,10));
     //green.m_tree.m_skills.push_back(make_shared<CStrong_ant>(tmp,10));

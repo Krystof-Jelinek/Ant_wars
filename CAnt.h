@@ -35,7 +35,7 @@ class CAnt{
 
     virtual bool move();
 
-    virtual void attack(CAnt * victim);
+    virtual void attack(shared_ptr<CAnt> victim);
 
     virtual void affect_nest();
 };

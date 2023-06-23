@@ -12,7 +12,7 @@ class CTile{
     char m_color;
     
     public:
-    CAnt * m_ant_ocup;
+    shared_ptr<CAnt> m_ant_ocup;
     CNest * m_nest_ocup;
 
     void set_char(char src);
