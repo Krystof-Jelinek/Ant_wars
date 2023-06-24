@@ -111,6 +111,7 @@ void CMap::setwall(const coords & first, const coords & second){
     if(x1 == x2){
         while(y1 <= y2){
             this->map[x1][y1].set_char('#');
+            this->map[x1][y1].m_is_wall = true;
             y1++;
         }
         return;
@@ -119,6 +120,7 @@ void CMap::setwall(const coords & first, const coords & second){
     if(y1 == y2){
         while(x1 <= x2){
             this->map[x1][y1].set_char('#');
+            this->map[x1][y1].m_is_wall = true;
             x1++;
         }
         return;
@@ -235,11 +237,14 @@ void CMap::attack(CNest * attacker, CNest * victim){
     
     CRoad tmp_path = find_shortest_path(attacker,victim);
 
-    if (validate_path(tmp_path) == false){
-        cout << endl;
-        cout << endl;
-        cout << "You cant attack this nest" << endl;
-        return;
+    //if the nest doesnt have flying ants its needed to check whether the road is valid(there are no walls in the way)
+    if(!(attacker->is_flying())){
+        if (validate_path(tmp_path) == false){
+            cout << endl;
+            cout << endl;
+            cout << "You cant attack this nest" << endl;
+            return;
+        }
     }
 
     //checking wheter the attacker isnt already attacking this nest
@@ -267,7 +272,6 @@ void CMap::attack(CNest * attacker, CNest * victim){
         if(road_compare((*(*itr).get()),tmp_path)){
             attacker->m_attacking_paths.push_back((*itr));
             attacker->m_currently_attacking_num = attacker->m_currently_attacking_num + 1;
-            return;
             return;
         }
     }
@@ -364,7 +368,7 @@ void CMap::reset_selection(){
 
 bool CMap::validate_path(CRoad & src){
     for(auto itr = src.road.begin();itr != src.road.end();itr++){
-        if((*this)[(*itr)].is_wall()){
+        if((*this)[(*itr)].m_is_wall){
             return false;
         }
     }

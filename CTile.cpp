@@ -18,6 +18,7 @@ using namespace std;
 CTile::CTile(){
     m_char = ' ';
     m_color = 'W';
+    m_is_wall = false;
     m_ant_ocup = nullptr;
     m_nest_ocup = nullptr;
 }
@@ -86,15 +87,17 @@ void CTile::print_tile(){
 }
 
 void CTile::reset_tile(){
+
+    if(m_is_wall){
+        m_color = 'W';
+        m_char = '#';
+        m_ant_ocup = nullptr;
+        m_nest_ocup = nullptr;
+        return;
+    }
+
     m_color = 'W';
     m_char = ' ';
     m_ant_ocup = nullptr;
     m_nest_ocup = nullptr;
-}
-
-bool CTile::is_wall(){
-    if(m_char == '#'){
-        return true;
-    }
-    return false;
 }

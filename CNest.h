@@ -52,6 +52,18 @@ class CStrong_ant : public CSkill{
     void affect_nest(CNest * src) override;
 };
 
+class CExplo_ants : public CSkill{
+    public:
+    CExplo_ants(const string & m_name, int cost);
+    void affect_nest(CNest * src) override;
+};
+
+class CFly_ants : public CSkill{
+    public:
+    CFly_ants(const string & m_name, int cost);
+    void affect_nest(CNest * src) override;
+};
+
 class CSkillTree{
     private:
     
@@ -83,6 +95,7 @@ class CNest{
     int m_ant_speed = 2;
     bool m_ant_sup_boost = false;
     bool exploding_ants = false;
+    bool flying_ants = false;
 
 
     public:
@@ -114,6 +127,10 @@ class CNest{
     void set_sup_boost(bool input);
 
     void set_exploding(bool input);
+
+    void set_flying(bool input);
+
+    bool is_flying();
 
     char first_ant_num() const ;
 

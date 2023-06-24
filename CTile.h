@@ -12,8 +12,10 @@ class CTile{
     char m_color;
     
     public:
+    bool m_is_wall;
     shared_ptr<CAnt> m_ant_ocup;
     CNest * m_nest_ocup;
+
 
     void set_char(char src);
     
@@ -30,7 +32,5 @@ class CTile{
     void print_tile();
 
     void reset_tile();
-
-    bool is_wall();
 
 };

@@ -38,7 +38,7 @@ void CGame::set_board(){
     set_skilltree_pointers();
     set_players_nests();
 
-    //map.setwall(coords(0,15),coords(20,15));
+    map.setwall(coords(0,15),coords(20,15));
 
 }
 
@@ -209,7 +209,6 @@ void CGame::take_input(){
         show_upgrade_menu();
         take_upgrade_input();
         
-        
         return;
     }
 
@@ -352,6 +351,70 @@ void CGame::take_upgrade_input(){
         return; 
     }
 
+    if(input == "5"){
+
+        string skill_name = "exploding_ants";
+
+        if((!map.m_selected_nest->already_has_skill("faster_ants"))||(!map.m_selected_nest->already_has_skill("faster_breeding"))){
+            map.printmap();
+            cout << "You cant develop exploding ants before you have fast ants and faster breeding" << endl;
+            return;
+        }
+
+        if(map.m_selected_nest->already_has_skill(skill_name)){
+            map.printmap();
+            cout << "This nest already has this skill" << endl;
+            return;
+        }
+
+        if(dna_points < 20){
+            map.printmap();
+            cout << "You dont have enough dna points for this upgrade" << endl;
+            return;
+        }
+
+        auto ptr = make_shared<CExplo_ants>(skill_name,20);
+        map.m_selected_nest->add_skill(ptr);
+        player_ptr->dna_points = player_ptr->dna_points - ptr->m_cost;
+        map.printmap();
+        return; 
+    }
+
+    if(input == "6"){
+
+        string skill_name = "flying_ants";
+
+        if((!map.m_selected_nest->already_has_skill("stronger_ants"))||(!map.m_selected_nest->already_has_skill("support_ants"))){
+            map.printmap();
+            cout << "You cant develop exploding ants before you have strong ants and support ants" << endl;
+            return;
+        }
+
+        if(map.m_selected_nest->already_has_skill(skill_name)){
+            map.printmap();
+            cout << "This nest already has this skill" << endl;
+            return;
+        }
+
+        if(dna_points < 20){
+            map.printmap();
+            cout << "You dont have enough dna points for this upgrade" << endl;
+            return;
+        }
+
+        auto ptr = make_shared<CFly_ants>(skill_name,20);
+        map.m_selected_nest->add_skill(ptr);
+        player_ptr->dna_points = player_ptr->dna_points - ptr->m_cost;
+        map.printmap();
+        return; 
+    }
+
+    else{
+        map.printmap();
+        cout << "Invalid input" << endl;
+        return;
+    }
+
 }
 
 
@@ -373,32 +436,51 @@ void CGame::show_upgrade_menu(){
     cout << "Which skills you want to evolve ?" << endl;
     
     if(map.m_selected_nest->already_has_skill("faster_ants")){
-        cout << "These ants cant get any faster than this!" << endl;
+        cout << "1 - These ants cant get any faster than this!" << endl;
     }
     else{
         cout << "1 - write \"1\" to get faster moving ants" << endl;
     }
 
     if(map.m_selected_nest->already_has_skill("faster_breeding")){
-        cout << "They are already using their queen to its limits" << endl;
+        cout << "2 - They are already using their queen to its limits" << endl;
     }
     else{
         cout << "2 - write \"2\" to get faster breeding ants" << endl;
     }
 
     if(map.m_selected_nest->already_has_skill("stronger_ants")){
-        cout << "Already on steroids doesnt get stronger than this" << endl;
+        cout << "3 - Already on steroids doesnt get stronger than this" << endl;
     }
     else{
         cout << "3 - write \"3\" to get stronger ants" << endl;
     }
 
     if(map.m_selected_nest->already_has_skill("support_ants")){
-        cout << "They cant support more than this they arent support dogs" << endl;
+        cout << "4 - They cant support more than this they arent support dogs" << endl;
     }
     else{
         cout << "4 - write \"4\" to get better support ants" << endl;
     }
+
+    if(map.m_selected_nest->already_has_skill("exploding_ants")){
+        cout << "5 - Its already doing kaboom" << endl;
+    }
+    else{
+        cout << "5 - write \"5\" to get exploding ants" << endl;
+        cout << "(You need to have faster breeding and fast ants to unlock this skill)" << endl;
+
+    }
+
+    if(map.m_selected_nest->already_has_skill("flying_ants")){
+        cout << "6 - No more wings allowed" << endl;
+    }
+    else{
+        cout << "6 - write \"6\" to get flying ants" << endl;
+        cout << "(You need to have strong ants and support ants to unlock this skill)" << endl;
+
+    }
+
     cout << "q - write \"q\" to cancel and go back" << endl;
 
 }

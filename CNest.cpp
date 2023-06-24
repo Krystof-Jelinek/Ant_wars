@@ -58,7 +58,13 @@ void CNest::set_exploding(bool input){
     exploding_ants = input;
 }
 
+void CNest::set_flying(bool input){
+    flying_ants = input;
+}
 
+bool CNest::is_flying(){
+    return flying_ants;
+}
 
 char CNest::first_ant_num() const {
     return char(m_num_ants%10 + '0');
@@ -91,7 +97,6 @@ bool CNest::already_has_skill(const string & name){
     }
     return false;
 }
-
 
 bool CNest::create_ant_check(int tick){
     if(m_attacking_paths.empty()){
@@ -256,4 +261,18 @@ CMore_sup::CMore_sup(const string & m_name, int cost)
 
 void CMore_sup::affect_nest(CNest * src){
     src->set_sup_boost(true);
+}
+
+CExplo_ants::CExplo_ants(const string & m_name, int cost)
+:CSkill(m_name,cost){}
+
+void CExplo_ants::affect_nest(CNest * src){
+    src->set_exploding(true);
+}
+
+CFly_ants::CFly_ants(const string & m_name, int cost)
+:CSkill(m_name,cost){}
+
+void CFly_ants::affect_nest(CNest * src){
+    src->set_flying(true);
 }
