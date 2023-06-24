@@ -15,6 +15,7 @@ class CGame{
     int state;
     int current_tick;
     vector<CPlayer> all_players;
+    vector<shared_ptr<CSkill>> defining_skill_table;
 
     CMap map;
     public:
@@ -24,6 +25,8 @@ class CGame{
     }
 
     void set_board();
+
+    void define_skill_table();
 
     void set_skilltree_pointers();
 

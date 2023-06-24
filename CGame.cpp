@@ -37,8 +37,32 @@ void CGame::set_board(){
 
     set_skilltree_pointers();
     set_players_nests();
+    define_skill_table();
 
     map.setwall(coords(0,15),coords(20,15));
+
+}
+
+void CGame::define_skill_table(){
+    defining_skill_table.clear();
+
+    auto ptr = make_shared<CFast_ant>("faster_ants",10);
+    defining_skill_table.push_back(ptr);
+
+    auto ptr2 = make_shared<CFast_rep>("faster_breeding",10);
+    defining_skill_table.push_back(ptr2);
+
+    auto ptr3 = make_shared<CStrong_ant>("stronger_ants",10);
+    defining_skill_table.push_back(ptr3);
+
+    auto ptr4 = make_shared<CMore_sup>("support_ants",10);
+    defining_skill_table.push_back(ptr4);
+
+    auto ptr5 = make_shared<CExplo_ants>("exploding_ants",20);
+    defining_skill_table.push_back(ptr5);
+
+    auto ptr6 = make_shared<CFly_ants>("flying_ants",20);
+    defining_skill_table.push_back(ptr6);
 
 }
 
@@ -261,99 +285,85 @@ void CGame::take_upgrade_input(){
 
     if(input == "1"){
 
-        string skill_name = "faster_ants";
-
-        if(map.m_selected_nest->already_has_skill(skill_name)){
+        if(map.m_selected_nest->already_has_skill(defining_skill_table[0]->m_skill_name)){
             map.printmap();
             cout << "This nest already has this skill" << endl;
             return;
         }
 
-        if(dna_points < 10){
+        if(dna_points < defining_skill_table[0]->m_cost){
             map.printmap();
             cout << "You dont have enough dna points for this upgrade" << endl;
             return;
         }
 
-        auto ptr = make_shared<CFast_ant>(skill_name,10);
-        map.m_selected_nest->add_skill(ptr);
-        player_ptr->dna_points = player_ptr->dna_points -10;
+        map.m_selected_nest->add_skill(defining_skill_table[0]);
+        player_ptr->dna_points = player_ptr->dna_points - defining_skill_table[0]->m_cost;
         map.printmap();
         return; 
     }
 
     if(input == "2"){
 
-        string skill_name = "faster_breeding";
-
-        if(map.m_selected_nest->already_has_skill(skill_name)){
+        if(map.m_selected_nest->already_has_skill(defining_skill_table[1]->m_skill_name)){
             map.printmap();
             cout << "This nest already has this skill" << endl;
             return;
         }
 
-        if(dna_points < 10){
+        if(dna_points < defining_skill_table[1]->m_cost){
             map.printmap();
             cout << "You dont have enough dna points for this upgrade" << endl;
             return;
         }
 
-        auto ptr = make_shared<CFast_rep>(skill_name,10);
-        map.m_selected_nest->add_skill(ptr);
-        player_ptr->dna_points = player_ptr->dna_points -10;
+        map.m_selected_nest->add_skill(defining_skill_table[1]);
+        player_ptr->dna_points = player_ptr->dna_points - defining_skill_table[1]->m_cost;
         map.printmap();
         return; 
     }
 
     if(input == "3"){
 
-        string skill_name = "stronger_ants";
-
-        if(map.m_selected_nest->already_has_skill(skill_name)){
+        if(map.m_selected_nest->already_has_skill(defining_skill_table[2]->m_skill_name)){
             map.printmap();
             cout << "This nest already has this skill" << endl;
             return;
         }
 
-        if(dna_points < 10){
+        if(dna_points < defining_skill_table[2]->m_cost){
             map.printmap();
             cout << "You dont have enough dna points for this upgrade" << endl;
             return;
         }
 
-        auto ptr = make_shared<CStrong_ant>(skill_name,10);
-        map.m_selected_nest->add_skill(ptr);
-        player_ptr->dna_points = player_ptr->dna_points -10;
+        map.m_selected_nest->add_skill(defining_skill_table[2]);
+        player_ptr->dna_points = player_ptr->dna_points - defining_skill_table[2]->m_cost;
         map.printmap();
         return; 
     }
 
     if(input == "4"){
 
-        string skill_name = "support_ants";
-
-        if(map.m_selected_nest->already_has_skill(skill_name)){
+        if(map.m_selected_nest->already_has_skill(defining_skill_table[3]->m_skill_name)){
             map.printmap();
             cout << "This nest already has this skill" << endl;
             return;
         }
 
-        if(dna_points < 10){
+        if(dna_points < defining_skill_table[3]->m_cost){
             map.printmap();
             cout << "You dont have enough dna points for this upgrade" << endl;
             return;
         }
 
-        auto ptr = make_shared<CMore_sup>(skill_name,10);
-        map.m_selected_nest->add_skill(ptr);
-        player_ptr->dna_points = player_ptr->dna_points -10;
+        map.m_selected_nest->add_skill(defining_skill_table[3]);
+        player_ptr->dna_points = player_ptr->dna_points - defining_skill_table[3]->m_cost;
         map.printmap();
         return; 
     }
 
     if(input == "5"){
-
-        string skill_name = "exploding_ants";
 
         if((!map.m_selected_nest->already_has_skill("faster_ants"))||(!map.m_selected_nest->already_has_skill("faster_breeding"))){
             map.printmap();
@@ -361,28 +371,25 @@ void CGame::take_upgrade_input(){
             return;
         }
 
-        if(map.m_selected_nest->already_has_skill(skill_name)){
+        if(map.m_selected_nest->already_has_skill(defining_skill_table[4]->m_skill_name)){
             map.printmap();
             cout << "This nest already has this skill" << endl;
             return;
         }
 
-        if(dna_points < 20){
+        if(dna_points < defining_skill_table[4]->m_cost){
             map.printmap();
             cout << "You dont have enough dna points for this upgrade" << endl;
             return;
         }
 
-        auto ptr = make_shared<CExplo_ants>(skill_name,20);
-        map.m_selected_nest->add_skill(ptr);
-        player_ptr->dna_points = player_ptr->dna_points - ptr->m_cost;
+        map.m_selected_nest->add_skill(defining_skill_table[4]);
+        player_ptr->dna_points = player_ptr->dna_points - defining_skill_table[4]->m_cost;
         map.printmap();
         return; 
     }
 
     if(input == "6"){
-
-        string skill_name = "flying_ants";
 
         if((!map.m_selected_nest->already_has_skill("stronger_ants"))||(!map.m_selected_nest->already_has_skill("support_ants"))){
             map.printmap();
@@ -390,21 +397,20 @@ void CGame::take_upgrade_input(){
             return;
         }
 
-        if(map.m_selected_nest->already_has_skill(skill_name)){
+        if(map.m_selected_nest->already_has_skill(defining_skill_table[5]->m_skill_name)){
             map.printmap();
             cout << "This nest already has this skill" << endl;
             return;
         }
 
-        if(dna_points < 20){
+        if(dna_points < defining_skill_table[5]->m_cost){
             map.printmap();
             cout << "You dont have enough dna points for this upgrade" << endl;
             return;
         }
 
-        auto ptr = make_shared<CFly_ants>(skill_name,20);
-        map.m_selected_nest->add_skill(ptr);
-        player_ptr->dna_points = player_ptr->dna_points - ptr->m_cost;
+        map.m_selected_nest->add_skill(defining_skill_table[5]);
+        player_ptr->dna_points = player_ptr->dna_points - defining_skill_table[5]->m_cost;
         map.printmap();
         return; 
     }
